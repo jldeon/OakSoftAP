@@ -668,6 +668,43 @@ function comm_error_retry(){
 
 	});
 
+$("#custom_server_save").click(function (e) {
+	$.ajax('http://192.168.0.1/set',{
+		    'data': JSON.stringify({
+				"first-update-domain":$("#custom_server_host").val(),
+				"first-update-fingerprint":$("#custom_server_fingerprint").val()
+			}), 
+		    'type': 'POST',
+		    'processData': false,
+		    'contentType': 'text/plain'
+		})
+	e.preventDefault()
+	
+})
+
+/* Fetch the server's thumbprint before we switch to the ACORN net */
+var custom_server_fingerprint = "";
+$.ajax('/thumb.txt', {
+		'success':function (txt) {custom_server_fingerprint = txt},
+		'type':'GET',			
+		'contentType':'text/plain'
+});
+
+$("#custom_server_presets").change(function (e) {
+	var preset = $(this).children(":selected").attr("id");
+	if(preset == "digistump") {
+		$('#custom_server_host').val("oakota.digistump.com")
+		$('#custom_server_fingerprint').val("98 66 d5 5c 3d 4a 49 24 e3 1b 72 8b 8f 2e 65 2e 32 2a 7b 95")
+	} else if(preset == "jldeon") {
+		$('#custom_server_host').val("52.37.37.115")
+		$('#custom_server_fingerprint').val("17 08 7A 72 63 78 E9 71 53 50 65 85 16 07 C1 03 9C AA 39 D0")
+	} else if(preset == "custom") {
+		$('#custom_server_host').val(window.location.hostname)
+		$('#custom_server_fingerprint').val(custom_server_fingerprint)
+	}
+	
+	e.preventDefault()
+})
 
 
 });
@@ -708,6 +745,7 @@ function comm_error_retry(){
 
     	</div>
     	<div id="wifi" style="display:none;">
+		
     	<div id="wifi_claimed" style="color:red;font-weight:bold;display:none;">This Oak may already be claimed by another Particle account, this wizard will only allow you to change the WiFi connection settings.<br><br></div>
     	<div id="no_networks" style="color:red;font-weight:bold;display:none;">No WiFi networks found. Please click "Back," move your Oak closer to your network, and then power cycle the Oak so that it will rescan.</div>
 	    	<table id="network" class="pure-table pure-table-horizontal" style="width:320px;">
@@ -739,6 +777,24 @@ function comm_error_retry(){
 		        </div>
 			</div><br><br>
 			<b>Notes:</b> Only the first 10 networks will be listed above, if your network does not appear try manually entering it. You must power cycle your Oak to make it rescan for networks.<br><br>System Version: <span id="systemv"></span>
+		
+		<div id="set_custom_server">
+			<br><br>
+			<p><b>Advanced: Set update server host and SSL fingerprint</b></p>
+			<p>Presets: 
+			<select id="custom_server_presets">
+				<option id="none">---</option>
+				<option id="digistump">Digistump Server (Default)</option>
+				<option id="jldeon">jldeon's test server</option>
+				<option id="custom">Custom Server (Autodetect)</option>
+			</select></p>
+			
+			<p>
+			Host: <input class="pure-input-1" type="text" id="custom_server_host"><br>
+			SSL Fingerprint: <input class="pure-input-1" type="text" size=50 id="custom_server_fingerprint">
+			<button class="pure button pure-button-primary" id="custom_server_save">Save</button>
+			</p>
+		</div>
 		</div>
 		<div id="saving" style="display:none;text-align:center;">
     		<b>Saving settings to your device...</b><br><br><br><img class="loader_image">
