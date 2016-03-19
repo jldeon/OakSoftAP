@@ -695,9 +695,9 @@ $("#custom_server_presets").change(function (e) {
 	if(preset == "digistump") {
 		$('#custom_server_host').val("oakota.digistump.com")
 		$('#custom_server_fingerprint').val("98 66 d5 5c 3d 4a 49 24 e3 1b 72 8b 8f 2e 65 2e 32 2a 7b 95")
-	} else if(preset == "jldeon") {
-		$('#custom_server_host').val("52.37.37.115")
-		$('#custom_server_fingerprint').val("17 08 7A 72 63 78 E9 71 53 50 65 85 16 07 C1 03 9C AA 39 D0")
+	} else if(preset == "digistump-fb") {
+		$('#custom_server_host').val("oakotafallback.digistump.com")
+		$('#custom_server_fingerprint').val("98 66 d5 5c 3d 4a 49 24 e3 1b 72 8b 8f 2e 65 2e 32 2a 7b 95")
 	} else if(preset == "custom") {
 		$('#custom_server_host').val(window.location.hostname)
 		$('#custom_server_fingerprint').val(custom_server_fingerprint)
@@ -785,7 +785,7 @@ $("#custom_server_presets").change(function (e) {
 			<select id="custom_server_presets">
 				<option id="none">---</option>
 				<option id="digistump">Digistump Server (Default)</option>
-				<option id="jldeon">jldeon's test server</option>
+				<option id="digistump-fb">Digistump fallback server</option>
 				<option id="custom">Custom Server (Autodetect)</option>
 			</select></p>
 			
